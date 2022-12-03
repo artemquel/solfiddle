@@ -1,0 +1,11 @@
+{
+    "compilerOptions": {
+        "lib": [
+          "ES2019",
+          "dom"
+        ],
+        "target": "es2015",
+        "esModuleInterop": true,
+        "moduleResolution": "node"
+    }
+}

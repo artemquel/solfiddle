@@ -1,0 +1,22 @@
+{
+  "name": "solfiddle",
+  "version": "0.0.1",
+  "description": "Open source solidity editor",
+  "license": "MIT",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "test:builder": "yarn workspace @solfiddle/builder test"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.3.4",
+    "@types/mocha": "^10.0.1",
+    "chai": "^4.3.7",
+    "mocha": "^10.1.0",
+    "parcel": "^2.8.0",
+    "prettier": "^2.8.0",
+    "ts-node": "^10.9.1"
+  }
+}
