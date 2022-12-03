@@ -2,6 +2,7 @@ import {
   IContract,
   IContractFunction,
   IFunctionArgument,
+  IModifierFunction,
   IParent,
   IUsing,
 } from "../../src/Contract";
@@ -81,6 +82,15 @@ export const functionWithModifier: IContractFunction = {
   modifiers: ["onlyOwner"],
 };
 
+export const modifier: IModifierFunction = {
+  name: "isBigger",
+  args: [
+    { type: "uint256", name: "a" },
+    { type: "uint256", name: "b" },
+  ],
+  code: ['require(a > b, "b less than a");', "_;"],
+};
+
 export const fullContract: Omit<
   IContract,
   | "addParent"
@@ -92,6 +102,8 @@ export const fullContract: Omit<
   | "addFunctionCode"
   | "setFunctionBody"
   | "addVariable"
+  | "addModifierCode"
+  | "setModifierCode"
 > = {
   constructorArgs: [
     { type: "uint256", name: "uintValue" },
@@ -145,6 +157,13 @@ export const fullContract: Omit<
         path: "libs/Lib.sol",
       },
       usingFor: "Library.Data",
+    },
+  ],
+  modifiers: [
+    {
+      name: "onlyOwner",
+      args: [],
+      code: ["_;"],
     },
   ],
 };

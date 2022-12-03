@@ -40,6 +40,15 @@ export interface IFunctionArgument {
   name: string;
 }
 
+export interface IBaseModifierFunction {
+  name: string;
+  args: IFunctionArgument[];
+}
+
+export interface IModifierFunction extends IBaseModifierFunction {
+  code: string[];
+}
+
 export type IFunctionKind = "internal" | "public";
 export type IFunctionMutability = typeof mutabilityRank[number];
 export const mutabilityRank = [
@@ -58,6 +67,7 @@ export interface IContract {
   variables: string[];
   constructorCode: string[];
   constructorArgs: IFunctionArgument[];
+  modifiers: IModifierFunction[];
 
   addParent: (contract: IParentContract, params: TValue[]) => void;
   addUsing: (library: IParentContract, usingFor: string) => void;
@@ -80,4 +90,9 @@ export interface IContract {
     mutability?: IFunctionMutability
   ) => void;
   addVariable: (code: string) => void;
+  addModifierCode: (code: string, baseModifier: IBaseModifierFunction) => void;
+  setModifierCode: (
+    code: string[],
+    baseModifier: IBaseModifierFunction
+  ) => void;
 }

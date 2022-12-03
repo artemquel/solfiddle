@@ -3,6 +3,7 @@ import {
   IContract,
   IContractFunction,
   IFunctionArgument,
+  IModifierFunction,
   IParent,
   TValue,
 } from "../Contract";
@@ -38,6 +39,7 @@ export class Builder implements IBuilder {
             this.printUsingFor(),
             this._contract.variables,
             this.printConstructor(),
+            ...this._contract.modifiers.map(this.printModifierFunction),
             ...fns.code,
             ...fns.modifiers,
             hasOverrides
@@ -171,6 +173,21 @@ export class Builder implements IBuilder {
     } else {
       return JSON.stringify(value);
     }
+  }
+
+  private printModifierFunction(modifier: IModifierFunction): Lines[] {
+    const fn = [];
+    fn.push(
+      `modifier ${modifier.name}(${modifier.args
+        .map((arg) => `${arg.type} ${arg.name}`)
+        .join(", ")}){`
+    );
+
+    fn.push(modifier.code);
+
+    fn.push("}");
+
+    return fn;
   }
 
   private printFunction(fn: IContractFunction): Lines[] {

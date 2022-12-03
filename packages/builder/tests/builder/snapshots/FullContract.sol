@@ -16,6 +16,10 @@ contract TestContract is Contract {
         this.owner = msg.sender;
     }
 
+    modifier onlyOwner(){
+        _;
+    }
+
     function isBlocked() public view returns (bool) {
         return this.blocked;
     }

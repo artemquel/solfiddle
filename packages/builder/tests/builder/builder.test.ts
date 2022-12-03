@@ -7,6 +7,7 @@ import {
   fullContract,
   functionWithArgs,
   functionWithModifier,
+  modifier,
   overrideFunction,
   parents,
   parentsWithParams,
@@ -141,6 +142,16 @@ describe("Builder", () => {
       });
     });
 
+    describe("Modifiers", () => {
+      it("should return contract with modifier functions", () => {
+        sandbox.stub(contract, "modifiers").get(() => [modifier]);
+
+        const source = builder.getSource();
+
+        assertToEqual(source, ESnapshotType.MODIFIER_FUNCTION);
+      });
+    });
+
     describe("Whole contract", () => {
       it("should return correct contract", () => {
         const {
@@ -152,6 +163,7 @@ describe("Builder", () => {
           name,
           imports,
           functions,
+          modifiers,
         } = fullContract;
         sandbox.stub(contract, "constructorArgs").get(() => constructorArgs);
         sandbox.stub(contract, "constructorCode").get(() => constructorCode);
@@ -161,6 +173,7 @@ describe("Builder", () => {
         sandbox.stub(contract, "name").get(() => name);
         sandbox.stub(contract, "imports").get(() => imports);
         sandbox.stub(contract, "functions").get(() => functions);
+        sandbox.stub(contract, "modifiers").get(() => modifiers);
 
         const source = builder.getSource();
 

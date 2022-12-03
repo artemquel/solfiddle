@@ -170,5 +170,41 @@ describe("Contract", () => {
         ]);
       });
     });
+
+    describe("Modifiers", () => {
+      describe("addModifierCode", () => {
+        it("should return array with added modifier function", () => {
+          contract.addModifierCode("_;", {
+            name: "TestModifier",
+            args: [],
+          });
+
+          assert.deepEqual(contract.modifiers, [
+            {
+              name: "TestModifier",
+              args: [],
+              code: ["_;"],
+            },
+          ]);
+        });
+      });
+
+      describe("setModifierCode", () => {
+        it("should return array with added modifier function", () => {
+          contract.setModifierCode(["_;"], {
+            name: "TestModifier",
+            args: [],
+          });
+
+          assert.deepEqual(contract.modifiers, [
+            {
+              name: "TestModifier",
+              args: [],
+              code: ["_;"],
+            },
+          ]);
+        });
+      });
+    });
   });
 });

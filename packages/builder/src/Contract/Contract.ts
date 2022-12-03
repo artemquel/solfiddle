@@ -9,6 +9,8 @@ import {
   TValue,
   IContract,
   mutabilityRank,
+  IModifierFunction,
+  IBaseModifierFunction,
 } from "./types";
 
 export class Contract implements IContract {
@@ -22,6 +24,7 @@ export class Contract implements IContract {
   private readonly _variableSet: Set<string> = new Set();
   private readonly _constructorCode: string[] = [];
   private readonly _constructorArgs: IFunctionArgument[] = [];
+  private readonly _modifierMap: Map<string, IModifierFunction> = new Map();
 
   constructor(name: string) {
     this._name = name
@@ -73,6 +76,10 @@ export class Contract implements IContract {
 
   get constructorArgs() {
     return this._constructorArgs;
+  }
+
+  get modifiers() {
+    return [...this._modifierMap.values()];
   }
 
   addParent(contract: IParentContract, params: TValue[] = []) {
@@ -155,6 +162,46 @@ export class Contract implements IContract {
     this._variableSet.add(code);
   }
 
+  addModifierCode(code: string, baseModifier: IBaseModifierFunction) {
+    const fn = this.addModifierFunction(baseModifier);
+    fn.code.push(code);
+  }
+
+  setModifierCode(code: string[], baseModifier: IBaseModifierFunction) {
+    const fn = this.addModifierFunction(baseModifier);
+    if (fn.code.length > 0) {
+      throw new Error(`Modifier ${baseModifier.name} has additional code`);
+    }
+    fn.code.push(...code);
+  }
+
+  private addModifierFunction(
+    baseModifier: IBaseModifierFunction
+  ): IModifierFunction {
+    const signature = [
+      baseModifier.name,
+      "(",
+      ...baseModifier.args.map((a) => a.name),
+      ")",
+    ].join("");
+
+    if (this._functionMap.get(signature)) {
+      throw new Error("A function with this signature is already defined");
+    }
+
+    const got = this._modifierMap.get(signature);
+    if (got !== undefined) {
+      return got;
+    } else {
+      const fn: IModifierFunction = {
+        ...baseModifier,
+        code: [],
+      };
+      this._modifierMap.set(signature, fn);
+      return fn;
+    }
+  }
+
   private addFunction(baseFn: IBaseFunction): IContractFunction {
     const signature = [
       baseFn.name,
@@ -162,6 +209,11 @@ export class Contract implements IContract {
       ...baseFn.args.map((a) => a.name),
       ")",
     ].join("");
+
+    if (this._modifierMap.get(signature)) {
+      throw new Error("A function with this signature is already defined");
+    }
+
     const got = this._functionMap.get(signature);
     if (got !== undefined) {
       return got;
