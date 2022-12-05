@@ -12,6 +12,7 @@ import {
   IModifierFunction,
   IBaseModifierFunction,
   IEvent,
+  IEnum,
 } from "./types";
 
 export class Contract implements IContract {
@@ -27,6 +28,7 @@ export class Contract implements IContract {
   private readonly _constructorArgs: IFunctionArgument[] = [];
   private readonly _modifierMap: Map<string, IModifierFunction> = new Map();
   private readonly _eventMap: Map<string, IEvent> = new Map();
+  private readonly _enumerationMap: Map<string, IEnum> = new Map();
 
   constructor(name: string) {
     this._name = name
@@ -86,6 +88,10 @@ export class Contract implements IContract {
 
   get events() {
     return [...this._eventMap.values()];
+  }
+
+  get enumerations() {
+    return [...this._enumerationMap.values()];
   }
 
   addParent(contract: IParentContract, params: TValue[] = []) {
@@ -183,6 +189,10 @@ export class Contract implements IContract {
 
   addEvent(event: IEvent) {
     this._eventMap.set(event.name, event);
+  }
+
+  addEnumeration(enumeration: IEnum) {
+    this._enumerationMap.set(enumeration.name, enumeration);
   }
 
   private addModifierFunction(

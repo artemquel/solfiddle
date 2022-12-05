@@ -2,6 +2,7 @@ import { IBuilder, TSortedFunctions } from "./types";
 import {
   IContract,
   IContractFunction,
+  IEnum,
   IEvent,
   IFunctionArgument,
   IModifierFunction,
@@ -38,6 +39,7 @@ export class Builder implements IBuilder {
 
           spaceBetween(
             this.printUsingFor(),
+            ...this._contract.enumerations.map(this.printEnumeration),
             this._contract.variables,
             this._contract.events.map(this.printEvent),
             this.printConstructor(),
@@ -200,6 +202,20 @@ export class Builder implements IBuilder {
           `${type} ${indexed ? "indexed " : ""}${name}`
       )
       .join(", ")});`;
+  }
+
+  private printEnumeration(enumeration: IEnum): Lines[] {
+    const en = [];
+    en.push(`enum ${enumeration.name} {`);
+    en.push(
+      enumeration.options.map(
+        (option, index) =>
+          `${option}${index + 1 !== enumeration.options.length ? "," : ""}`
+      )
+    );
+    en.push("}");
+
+    return en;
   }
 
   private printFunction(fn: IContractFunction): Lines[] {

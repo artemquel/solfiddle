@@ -60,6 +60,11 @@ export interface IEvent {
   properties: IEventProperty[];
 }
 
+export interface IEnum {
+  name: string;
+  options: string[];
+}
+
 export type IFunctionKind = "internal" | "public";
 export type IFunctionMutability = typeof mutabilityRank[number];
 export const mutabilityRank = [
@@ -80,6 +85,7 @@ export interface IContract {
   constructorArgs: IFunctionArgument[];
   modifiers: IModifierFunction[];
   events: IEvent[];
+  enumerations: IEnum[];
 
   addParent: (contract: IParentContract, params: TValue[]) => void;
   addUsing: (library: IParentContract, usingFor: string) => void;
@@ -108,4 +114,5 @@ export interface IContract {
     baseModifier: IBaseModifierFunction
   ) => void;
   addEvent: (event: IEvent) => void;
+  addEnumeration: (enumeration: IEnum) => void;
 }

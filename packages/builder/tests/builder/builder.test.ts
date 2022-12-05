@@ -4,6 +4,7 @@ import { createSandbox, SinonSandbox } from "sinon";
 import { Builder } from "../../src/Builder";
 import {
   constructorArgs,
+  enumeration,
   event,
   fullContract,
   functionWithArgs,
@@ -163,6 +164,16 @@ describe("Builder", () => {
       });
     });
 
+    describe("Enumerations", () => {
+      it("should return contract with enumerations", () => {
+        sandbox.stub(contract, "enumerations").get(() => [enumeration]);
+
+        const source = builder.getSource();
+
+        assertToEqual(source, ESnapshotType.ENUM);
+      });
+    });
+
     describe("Whole contract", () => {
       it("should return correct contract", () => {
         const {
@@ -176,7 +187,9 @@ describe("Builder", () => {
           functions,
           modifiers,
           events,
+          enumerations,
         } = fullContract;
+
         sandbox.stub(contract, "constructorArgs").get(() => constructorArgs);
         sandbox.stub(contract, "constructorCode").get(() => constructorCode);
         sandbox.stub(contract, "using").get(() => using);
@@ -187,9 +200,10 @@ describe("Builder", () => {
         sandbox.stub(contract, "functions").get(() => functions);
         sandbox.stub(contract, "modifiers").get(() => modifiers);
         sandbox.stub(contract, "events").get(() => events);
+        sandbox.stub(contract, "enumerations").get(() => enumerations);
 
         const source = builder.getSource();
-        console.log(source);
+
         assertToEqual(source, ESnapshotType.FULL_CONTRACT);
       });
     });

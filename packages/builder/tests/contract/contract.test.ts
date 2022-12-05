@@ -3,6 +3,7 @@ import {
   Contract,
   IBaseFunction,
   IContract,
+  IEnum,
   IEvent,
   IFunctionArgument,
   IParent,
@@ -220,6 +221,18 @@ describe("Contract", () => {
         contract.addEvent(event);
 
         assert.deepEqual(contract.events, [event]);
+      });
+    });
+
+    describe("Enumerations", () => {
+      it("should return array with added enumeration", () => {
+        const enumeration: IEnum = {
+          name: "TestEnum",
+          options: ["Opt1", "Opt2", "Opt3"],
+        };
+        contract.addEnumeration(enumeration);
+
+        assert.deepEqual(contract.enumerations, [enumeration]);
       });
     });
   });

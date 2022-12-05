@@ -6,6 +6,19 @@ import "libs/Lib.sol";
 contract TestContract is Contract {
     using Library for Library.Data;
 
+    enum Stage {
+        NONE,
+        PENDING,
+        FULFILL,
+        REJECT
+    }
+
+    enum Role {
+        ADMIN,
+        USER,
+        VIEWER
+    }
+
     uint256 totalAmount;
     bool blocked;
     address owner;

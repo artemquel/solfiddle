@@ -1,6 +1,7 @@
 import {
   IContract,
   IContractFunction,
+  IEnum,
   IEvent,
   IFunctionArgument,
   IModifierFunction,
@@ -101,6 +102,11 @@ export const event: IEvent = {
   ],
 };
 
+export const enumeration: IEnum = {
+  name: "Stage",
+  options: ["NONE", "PENDING", "FULFILL", "REJECT"],
+};
+
 export const fullContract: Omit<
   IContract,
   | "addParent"
@@ -115,6 +121,7 @@ export const fullContract: Omit<
   | "addModifierCode"
   | "setModifierCode"
   | "addEvent"
+  | "addEnumeration"
 > = {
   constructorArgs: [
     { type: "uint256", name: "uintValue" },
@@ -154,29 +161,17 @@ export const fullContract: Omit<
   name: "TestContract",
   parents: [
     {
-      contract: {
-        name: "Contract",
-        path: "contracts/Contract.sol",
-      },
+      contract: { name: "Contract", path: "contracts/Contract.sol" },
       params: [],
     },
   ],
   using: [
     {
-      library: {
-        name: "Library",
-        path: "libs/Lib.sol",
-      },
+      library: { name: "Library", path: "libs/Lib.sol" },
       usingFor: "Library.Data",
     },
   ],
-  modifiers: [
-    {
-      name: "onlyOwner",
-      args: [],
-      code: ["_;"],
-    },
-  ],
+  modifiers: [{ name: "onlyOwner", args: [], code: ["_;"] }],
   events: [
     {
       name: "Transfer",
@@ -193,5 +188,9 @@ export const fullContract: Omit<
         { type: "address", name: "amount" },
       ],
     },
+  ],
+  enumerations: [
+    { name: "Stage", options: ["NONE", "PENDING", "FULFILL", "REJECT"] },
+    { name: "Role", options: ["ADMIN", "USER", "VIEWER"] },
   ],
 };

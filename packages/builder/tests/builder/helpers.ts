@@ -16,6 +16,7 @@ export enum ESnapshotType {
   FULL_CONTRACT = "FullContract",
   MODIFIER_FUNCTION = "ModifierFunction",
   EVENT = "Event",
+  ENUM = "Enumeration",
 }
 
 export function assertToEqual(source: string, type: ESnapshotType) {
