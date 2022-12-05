@@ -1,6 +1,7 @@
 import {
   IContract,
   IContractFunction,
+  IEvent,
   IFunctionArgument,
   IModifierFunction,
   IParent,
@@ -91,6 +92,15 @@ export const modifier: IModifierFunction = {
   code: ['require(a > b, "b less than a");', "_;"],
 };
 
+export const event: IEvent = {
+  name: "Transfer",
+  properties: [
+    { type: "address", name: "from", indexed: true },
+    { type: "address", name: "to", indexed: true },
+    { type: "address", name: "amount" },
+  ],
+};
+
 export const fullContract: Omit<
   IContract,
   | "addParent"
@@ -104,6 +114,7 @@ export const fullContract: Omit<
   | "addVariable"
   | "addModifierCode"
   | "setModifierCode"
+  | "addEvent"
 > = {
   constructorArgs: [
     { type: "uint256", name: "uintValue" },
@@ -164,6 +175,23 @@ export const fullContract: Omit<
       name: "onlyOwner",
       args: [],
       code: ["_;"],
+    },
+  ],
+  events: [
+    {
+      name: "Transfer",
+      properties: [
+        { type: "address", name: "from", indexed: true },
+        { type: "address", name: "to", indexed: true },
+        { type: "address", name: "amount" },
+      ],
+    },
+    {
+      name: "Purchase",
+      properties: [
+        { type: "address", name: "to", indexed: true },
+        { type: "address", name: "amount" },
+      ],
     },
   ],
 };

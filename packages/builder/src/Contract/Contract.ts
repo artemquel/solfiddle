@@ -11,6 +11,7 @@ import {
   mutabilityRank,
   IModifierFunction,
   IBaseModifierFunction,
+  IEvent,
 } from "./types";
 
 export class Contract implements IContract {
@@ -25,6 +26,7 @@ export class Contract implements IContract {
   private readonly _constructorCode: string[] = [];
   private readonly _constructorArgs: IFunctionArgument[] = [];
   private readonly _modifierMap: Map<string, IModifierFunction> = new Map();
+  private readonly _eventMap: Map<string, IEvent> = new Map();
 
   constructor(name: string) {
     this._name = name
@@ -80,6 +82,10 @@ export class Contract implements IContract {
 
   get modifiers() {
     return [...this._modifierMap.values()];
+  }
+
+  get events() {
+    return [...this._eventMap.values()];
   }
 
   addParent(contract: IParentContract, params: TValue[] = []) {
@@ -173,6 +179,10 @@ export class Contract implements IContract {
       throw new Error(`Modifier ${baseModifier.name} has additional code`);
     }
     fn.code.push(...code);
+  }
+
+  addEvent(event: IEvent) {
+    this._eventMap.set(event.name, event);
   }
 
   private addModifierFunction(

@@ -3,6 +3,7 @@ import {
   Contract,
   IBaseFunction,
   IContract,
+  IEvent,
   IFunctionArgument,
   IParent,
   IUsing,
@@ -204,6 +205,21 @@ describe("Contract", () => {
             },
           ]);
         });
+      });
+    });
+
+    describe("Events", () => {
+      it("should return array with added event", () => {
+        const event: IEvent = {
+          name: "TestEvent",
+          properties: [
+            { name: "wallet", indexed: true, type: "address" },
+            { name: "amount", type: "uint256" },
+          ],
+        };
+        contract.addEvent(event);
+
+        assert.deepEqual(contract.events, [event]);
       });
     });
   });

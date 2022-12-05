@@ -2,6 +2,7 @@ import { IBuilder, TSortedFunctions } from "./types";
 import {
   IContract,
   IContractFunction,
+  IEvent,
   IFunctionArgument,
   IModifierFunction,
   IParent,
@@ -38,6 +39,7 @@ export class Builder implements IBuilder {
           spaceBetween(
             this.printUsingFor(),
             this._contract.variables,
+            this._contract.events.map(this.printEvent),
             this.printConstructor(),
             ...this._contract.modifiers.map(this.printModifierFunction),
             ...fns.code,
@@ -188,6 +190,16 @@ export class Builder implements IBuilder {
     fn.push("}");
 
     return fn;
+  }
+
+  private printEvent(event: IEvent): Lines {
+    return `event ${event.name}(${event.properties
+      .filter(({ name, type }) => name && type)
+      .map(
+        ({ name, type, indexed }) =>
+          `${type} ${indexed ? "indexed " : ""}${name}`
+      )
+      .join(", ")});`;
   }
 
   private printFunction(fn: IContractFunction): Lines[] {

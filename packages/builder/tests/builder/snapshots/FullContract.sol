@@ -10,6 +10,9 @@ contract TestContract is Contract {
     bool blocked;
     address owner;
 
+    event Transfer(address indexed from, address indexed to, address amount);
+    event Purchase(address indexed to, address amount);
+
     constructor(uint256 uintValue, bool blocked) {
         this.totalAmount = uintValue * 100;
         this.blocked = blocked;
