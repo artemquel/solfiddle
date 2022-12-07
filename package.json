@@ -11,12 +11,15 @@
     "test:builder": "yarn workspace @solfiddle/builder test"
   },
   "devDependencies": {
+    "@parcel/packager-ts": "2.8.0",
+    "@parcel/transformer-typescript-types": "2.8.0",
     "@types/chai": "^4.3.4",
     "@types/mocha": "^10.0.1",
     "chai": "^4.3.7",
     "mocha": "^10.1.0",
     "parcel": "^2.8.0",
     "prettier": "^2.8.0",
-    "ts-node": "^10.9.1"
+    "ts-node": "^10.9.1",
+    "typescript": ">=3.0.0"
   }
 }

@@ -7,6 +7,7 @@
   "types": "dist/types.d.ts",
   "scripts": {
     "watch": "parcel watch --no-hmr src/index.ts",
+    "build": "parcel build src/index.ts",
     "test": "env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' mocha -r ts-node/register 'tests/**/*.ts'"
   },
   "dependencies": {},

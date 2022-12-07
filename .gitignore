@@ -1,3 +1,5 @@
 .idea
 node_modules
 packages/builder/node_modules
+packages/builder/dist
+/.parcel-cache/
