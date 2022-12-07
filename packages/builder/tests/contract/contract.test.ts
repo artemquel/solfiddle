@@ -7,6 +7,7 @@ import {
   IEvent,
   IFunctionArgument,
   IParent,
+  IStruct,
   IUsing,
 } from "../../src/Contract";
 
@@ -233,6 +234,21 @@ describe("Contract", () => {
         contract.addEnumeration(enumeration);
 
         assert.deepEqual(contract.enumerations, [enumeration]);
+      });
+    });
+
+    describe("Structs", () => {
+      it("should return array with added structure", () => {
+        const struct: IStruct = {
+          name: "TestStruct",
+          fields: [
+            { name: "size", type: "uint256" },
+            { name: "shape", type: "EShape" },
+          ],
+        };
+        contract.addStruct(struct);
+
+        assert.deepEqual(contract.structs, [struct]);
       });
     });
   });

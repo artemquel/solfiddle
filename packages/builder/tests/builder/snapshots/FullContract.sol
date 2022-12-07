@@ -26,6 +26,16 @@ contract TestContract is Contract {
     event Transfer(address indexed from, address indexed to, address amount);
     event Purchase(address indexed to, address amount);
 
+    struct Proposal{
+        address creator;
+        uint256 blockNumber;
+    }
+
+    struct Vote{
+        address voter;
+        uint256 blockNumber;
+    }
+
     constructor(uint256 uintValue, bool blocked) {
         this.totalAmount = uintValue * 100;
         this.blocked = blocked;

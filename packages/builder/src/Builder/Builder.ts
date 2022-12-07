@@ -7,6 +7,7 @@ import {
   IFunctionArgument,
   IModifierFunction,
   IParent,
+  IStruct,
   TValue,
 } from "../Contract";
 
@@ -42,6 +43,7 @@ export class Builder implements IBuilder {
             ...this._contract.enumerations.map(this.printEnumeration),
             this._contract.variables,
             this._contract.events.map(this.printEvent),
+            ...this._contract.structs.map(this.printStruct),
             this.printConstructor(),
             ...this._contract.modifiers.map(this.printModifierFunction),
             ...fns.code,
@@ -192,6 +194,15 @@ export class Builder implements IBuilder {
     fn.push("}");
 
     return fn;
+  }
+
+  private printStruct(struct: IStruct) {
+    const st = [];
+    st.push(`struct ${struct.name}{`);
+    st.push(struct.fields.map((field) => `${field.type} ${field.name};`));
+    st.push("}");
+
+    return st;
   }
 
   private printEvent(event: IEvent): Lines {

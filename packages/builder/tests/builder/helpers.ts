@@ -17,6 +17,7 @@ export enum ESnapshotType {
   MODIFIER_FUNCTION = "ModifierFunction",
   EVENT = "Event",
   ENUM = "Enumeration",
+  STRUCT = "Structure",
 }
 
 export function assertToEqual(source: string, type: ESnapshotType) {

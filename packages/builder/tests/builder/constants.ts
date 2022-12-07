@@ -6,6 +6,7 @@ import {
   IFunctionArgument,
   IModifierFunction,
   IParent,
+  IStruct,
   IUsing,
 } from "../../src/Contract";
 
@@ -107,6 +108,14 @@ export const enumeration: IEnum = {
   options: ["NONE", "PENDING", "FULFILL", "REJECT"],
 };
 
+export const structure: IStruct = {
+  name: "User",
+  fields: [
+    { name: "name", type: "string" },
+    { name: "age", type: "uint8" },
+  ],
+};
+
 export const fullContract: Omit<
   IContract,
   | "addParent"
@@ -122,6 +131,7 @@ export const fullContract: Omit<
   | "setModifierCode"
   | "addEvent"
   | "addEnumeration"
+  | "addStruct"
 > = {
   constructorArgs: [
     { type: "uint256", name: "uintValue" },
@@ -192,5 +202,21 @@ export const fullContract: Omit<
   enumerations: [
     { name: "Stage", options: ["NONE", "PENDING", "FULFILL", "REJECT"] },
     { name: "Role", options: ["ADMIN", "USER", "VIEWER"] },
+  ],
+  structs: [
+    {
+      name: "Proposal",
+      fields: [
+        { name: "creator", type: "address" },
+        { name: "blockNumber", type: "uint256" },
+      ],
+    },
+    {
+      name: "Vote",
+      fields: [
+        { name: "voter", type: "address" },
+        { name: "blockNumber", type: "uint256" },
+      ],
+    },
   ],
 };

@@ -14,6 +14,7 @@ import {
   parents,
   parentsWithParams,
   simpleFunction,
+  structure,
   using,
 } from "./constants";
 import { assertToEqual, ESnapshotType } from "./helpers";
@@ -174,6 +175,16 @@ describe("Builder", () => {
       });
     });
 
+    describe("Structures", () => {
+      it("should return contract with structures", () => {
+        sandbox.stub(contract, "structs").get(() => [structure]);
+
+        const source = builder.getSource();
+
+        assertToEqual(source, ESnapshotType.STRUCT);
+      });
+    });
+
     describe("Whole contract", () => {
       it("should return correct contract", () => {
         const {
@@ -188,6 +199,7 @@ describe("Builder", () => {
           modifiers,
           events,
           enumerations,
+          structs,
         } = fullContract;
 
         sandbox.stub(contract, "constructorArgs").get(() => constructorArgs);
@@ -201,6 +213,7 @@ describe("Builder", () => {
         sandbox.stub(contract, "modifiers").get(() => modifiers);
         sandbox.stub(contract, "events").get(() => events);
         sandbox.stub(contract, "enumerations").get(() => enumerations);
+        sandbox.stub(contract, "structs").get(() => structs);
 
         const source = builder.getSource();
 

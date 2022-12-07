@@ -49,9 +49,7 @@ export interface IModifierFunction extends IBaseModifierFunction {
   code: string[];
 }
 
-export interface IEventProperty {
-  name: string;
-  type: string;
+export interface IEventProperty extends IFunctionArgument {
   indexed?: boolean;
 }
 
@@ -63,6 +61,11 @@ export interface IEvent {
 export interface IEnum {
   name: string;
   options: string[];
+}
+
+export interface IStruct {
+  name: string;
+  fields: IFunctionArgument[];
 }
 
 export type IFunctionKind = "internal" | "public";
@@ -86,6 +89,7 @@ export interface IContract {
   modifiers: IModifierFunction[];
   events: IEvent[];
   enumerations: IEnum[];
+  structs: IStruct[];
 
   addParent: (contract: IParentContract, params: TValue[]) => void;
   addUsing: (library: IParentContract, usingFor: string) => void;
@@ -115,4 +119,5 @@ export interface IContract {
   ) => void;
   addEvent: (event: IEvent) => void;
   addEnumeration: (enumeration: IEnum) => void;
+  addStruct: (struct: IStruct) => void;
 }
